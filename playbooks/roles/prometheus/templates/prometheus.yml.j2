@@ -1,0 +1,41 @@
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+
+  - job_name: prometheus
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+    - targets: ['{{ hostvars[groups['manager'][0]]['ansible_default_ipv4']['address'] }}:9086']
+
+{% for svr in groups.manager %}
+  - job_name: 'node_exporter_manager_{{ loop.index - 1}}'
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+    - targets: ['{{ hostvars[groups['manager'][loop.index - 1]]['ansible_default_ipv4']['address'] }}:9087']
+{% if loop.index > 0 %}
+{{''}}
+{% endif %}
+{% endfor %}
+
+{% for svr in groups.worker %}
+  - job_name: 'node_exporter_worker_{{ loop.index - 1}}'
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+    - targets: ['{{ hostvars[groups['worker'][loop.index - 1]]['ansible_default_ipv4']['address'] }}:9087']
+{% if loop.index > 0 %}
+  {{''}}
+{% endif %}
+{% endfor %}
+
+{% for svr in groups.database %}
+  - job_name: 'node_exporter_database_{{ loop.index - 1}}'
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+    - targets: ['{{ hostvars[groups['database'][loop.index - 1]]['ansible_default_ipv4']['address'] }}:9087']
+{% if loop.index > 0 %}
+{{''}}
+{% endif %}
+{% endfor %}

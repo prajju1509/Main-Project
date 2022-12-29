@@ -1,0 +1,25 @@
+---
+- name: Creates directory
+  file:
+    path: /home/ubuntu/grafana
+    state: directory
+    owner: ubuntu
+    mode: 0777
+    recurse: yes
+- name: copying docker-compose manager files
+  copy: 
+      src: docker-compose-manager.yml
+      dest: /home/ubuntu/grafana
+      owner: ubuntu
+      directory_mode: 0777  
+- name: Down manager Grafana deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/grafana/docker-compose-manager.yml down
+  ignore_errors: yes
+- name: Running manager Grafana deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/grafana/docker-compose-manager.yml up -d

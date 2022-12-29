@@ -1,0 +1,9 @@
+---
+- name: Copy file with owner and permissions
+  copy:
+    src: docker_install.sh
+    dest: /home/ubuntu/docker-install.sh
+    owner: ubuntu
+    mode: '0777'
+- name: install docker
+  shell: bash -x /home/ubuntu/docker-install.sh

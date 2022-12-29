@@ -1,0 +1,26 @@
+---
+- name: Creates directory
+  file:
+    path: /home/ubuntu/prometheus
+    state: directory
+    owner: ubuntu
+    mode: 0777
+    recurse: yes
+- name: copying docker-compose manager files
+  copy: 
+      src: docker-compose-manager.yml
+      dest: /home/ubuntu/prometheus
+      owner: ubuntu
+      directory_mode: 0777
+- name: copying docker-compose worker files
+  copy: 
+      src: docker-compose-worker.yml
+      dest: /home/ubuntu/prometheus
+      owner: ubuntu
+      directory_mode: 0777
+- name: copy prometheus config file
+  template:
+         src: prometheus.yml.j2
+         dest: /home/ubuntu/prometheus/prometheus.yml
+         owner: ubuntu
+         mode: 0777

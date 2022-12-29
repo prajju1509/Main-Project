@@ -1,0 +1,13 @@
+---
+- name: Down worker and database Prometheus deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/prometheus/docker-compose-worker.yml down
+  ignore_errors: yes
+
+- name: Running worker and database Prometheus deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/prometheus/docker-compose-worker.yml up -d

@@ -1,0 +1,9 @@
+---
+- name: Copy file with owner and permissions
+  copy:
+    src: postgres_install.sh
+    dest: /home/ubuntu/postgres-install.sh
+    owner: ubuntu
+    mode: '0777'
+- name: install postgresql
+  shell: bash -x /home/ubuntu/postgres-install.sh

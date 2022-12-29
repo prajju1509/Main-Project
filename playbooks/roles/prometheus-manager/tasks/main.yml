@@ -1,0 +1,13 @@
+---
+- name: Down manager Prometheus deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/prometheus/docker-compose-manager.yml down
+  ignore_errors: yes
+  
+- name: Running manager Prometheus deploy
+  become_method: su
+  become: true
+  become_user: ubuntu
+  shell: docker-compose -f /home/ubuntu/prometheus/docker-compose-manager.yml up -d
